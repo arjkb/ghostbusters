@@ -102,6 +102,23 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
 
+        cp = self.copy()
+        cp.normalize()
+        # print " cp: ", cp
+
+        cumulative_sums = dict()
+        s = 0
+        for i, v in enumerate(cp.items()):
+            k = v[0]
+            if v[1] != 0:
+                s += v[1]
+                if i == 0:
+                    cumulative_sums[k] = 0
+                cumulative_sums[k] = s
+        print " cumulative_sums: ", cumulative_sums
+
+
+
 
 class InferenceModule:
     """
