@@ -104,7 +104,6 @@ class DiscreteDistribution(dict):
 
         cp = self.copy()
         cp.normalize()
-        # print " cp: ", cp
 
         cumulative_sums = dict()
         s = 0
@@ -115,10 +114,11 @@ class DiscreteDistribution(dict):
                 if i == 0:
                     cumulative_sums[k] = 0
                 cumulative_sums[k] = s
-        print " cumulative_sums: ", cumulative_sums
 
-
-
+        r = random.random()
+        for k,v in cumulative_sums.items():
+            if r < v:
+                return k
 
 class InferenceModule:
     """
