@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -75,6 +75,9 @@ class DiscreteDistribution(dict):
         {}
         """
         "*** YOUR CODE HERE ***"
+        tot = self.total()
+        for k,v in self.items():
+            self[k] = float(v/tot)
 
     def sample(self):
         """
@@ -99,6 +102,20 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
 
+        cp = self.copy()
+        cp.normalize()
+
+        cumulative_sums = dict()
+        s = 0
+        for i, (key, value) in enumerate(cp.items()):
+            if value != 0:
+                s += value
+                cumulative_sums[key] = s
+
+        r = random.random()
+        for k,v in cumulative_sums.items():
+            if r < v:
+                return k
 
 class InferenceModule:
     """
