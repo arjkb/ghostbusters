@@ -107,13 +107,12 @@ class DiscreteDistribution(dict):
 
         cumulative_sums = dict()
         s = 0
-        for i, v in enumerate(cp.items()):
-            k = v[0]
-            if v[1] != 0:
-                s += v[1]
+        for i, (key, value) in enumerate(cp.items()):
+            if value != 0:
+                s += value
                 if i == 0:
-                    cumulative_sums[k] = 0
-                cumulative_sums[k] = s
+                    cumulative_sums[key] = 0
+                cumulative_sums[key] = s
 
         r = random.random()
         for k,v in cumulative_sums.items():
