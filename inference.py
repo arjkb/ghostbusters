@@ -193,12 +193,9 @@ class InferenceModule:
 
         if noisyDistance == None:
             # noisyDistance says ghost is in jail,
-            if ghostPosition == jailPosition:
-                # and the ghost is infact in jail
-                return 1
-            else:
-                # but the ghost is not in jail. noisyDistance is definitely wrong.
-                return 0
+
+            # return 1 if ghost is infact in jail, 0 otherwise
+            return 1 if (ghostPosition == jailPosition) else 0
         else:
             # noisyDistance says ghost is  not in jail
             if ghostPosition == jailPosition:
