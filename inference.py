@@ -184,12 +184,6 @@ class InferenceModule:
         Return the probability P(noisyDistance | pacmanPosition, ghostPosition).
         """
         "*** YOUR CODE HERE ***"
-        # print "\n noisyDistance:", noisyDistance
-        # print " pacmanPosition:", pacmanPosition
-        # print " ghostPosition:", ghostPosition
-        # print " jailPosition:", jailPosition
-        #
-        # print " true_dist:", true_dist
 
         if noisyDistance == None:
             # noisyDistance says ghost is in jail,
