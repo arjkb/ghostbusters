@@ -307,7 +307,20 @@ class ExactInference(InferenceModule):
         position is known.
         """
         "*** YOUR CODE HERE ***"
+
+        pac_pos = gameState.getPacmanPosition()
+        jail_pos = self.getJailPosition()
+        # print "\n all positions:", self.allPositions
+        # print " beliefs: ", self.beliefs
+        # print " observation:", observation
+        # print " pacmanPosition:", pac_pos
+        # print " jailPosition:", jail_pos
+
+        for ghost_pos in self.allPositions:
+            self.beliefs[ghost_pos] *= self.getObservationProb(observation, pac_pos, ghost_pos, jail_pos)
+        # print "updated!"
         self.beliefs.normalize()
+
 
     def elapseTime(self, gameState):
         """
