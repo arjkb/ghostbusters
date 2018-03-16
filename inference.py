@@ -202,7 +202,7 @@ class InferenceModule:
         else:
             # noisyDistance says ghost is  not in jail
             if ghostPosition == jailPosition:
-                # the  ghost is really in jail
+                # but the ghost is really in jail
                 return 0
             else:
                 true_dist = manhattanDistance(pacmanPosition, ghostPosition)
