@@ -192,16 +192,22 @@ class InferenceModule:
         print " true_dist:", true_dist
 
         if noisyDistance == None:
+            # noisyDistance says ghost is in jail,
             if ghostPosition == jailPosition:
-                # noisyDistance is CORRECT!
+                # and the ghost is infact in jail
                 return 1
-            return 0
-        else:
-            if ghostPosition == jailPosition:
+            else:
+                # but the ghost is not in jail. noisyDistance is definitely wrong.
                 return 0
-            p_noisy_true = busters.getObservationProbability(noisyDistance, true_dist)
-            print " p_noisy_true:", p_noisy_true
-            return p_noisy_true
+        else:
+            # noisyDistance says ghost is  not in jail
+            if ghostPosition == jailPosition:
+                # the  ghost is really in jail
+                return 0
+            else:
+                p_noisy_true = busters.getObservationProbability(noisyDistance, true_dist)
+                print " p_noisy_true:", p_noisy_true
+                return p_noisy_true
 
     def setGhostPosition(self, gameState, ghostPosition, index):
         """
