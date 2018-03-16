@@ -76,8 +76,9 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
         tot = self.total()
-        for k,v in self.items():
-            self[k] = float(v/tot)
+        if tot != 0:
+            for k,v in self.items():
+                self[k] = float(v/tot)
 
     def sample(self):
         """
