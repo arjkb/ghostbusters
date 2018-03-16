@@ -185,6 +185,21 @@ class InferenceModule:
         """
         "*** YOUR CODE HERE ***"
 
+        if noisyDistance == None:
+            # noisyDistance says ghost is in jail,
+
+            # return 1 if ghost is infact in jail, 0 otherwise
+            return 1 if (ghostPosition == jailPosition) else 0
+        else:
+            # noisyDistance says ghost is  not in jail
+            if ghostPosition == jailPosition:
+                # but the ghost is really in jail
+                return 0
+            else:
+                true_dist = manhattanDistance(pacmanPosition, ghostPosition)
+                p_noisy_true = busters.getObservationProbability(noisyDistance, true_dist)
+                return p_noisy_true
+
     def setGhostPosition(self, gameState, ghostPosition, index):
         """
         Set the position of the ghost for this inference module to the specified
