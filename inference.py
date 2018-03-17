@@ -332,6 +332,21 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
+        pac_pos = gameState.getPacmanPosition()
+        jail_pos = self.getJailPosition()
+        # print " ghostpositions:", self.ghostPositions
+        # print "pac_pos:", pac_pos
+        # print "jail_pos:", jail_pos
+        # print "\n beliefs:", self.beliefs
+
+        # self.beliefs[pos] += self.getObservationProb(observation, pac_pos, pos, jail_pos) * newPosDist[pos]
+
+        for ghost_pos in self.allPositions:
+            newPosDist = self.getPositionDistribution(gameState, ghost_pos)
+            observation = manhattanDistance(pac_pos, ghost_pos)
+            self.beliefs[ghost_pos] *= self.getObservationProb(observation, pac_pos, ghost_pos, jail_pos) + newPosDist[ghost_pos]
+
+        self.beliefs.normalize()
 
     def getBeliefDistribution(self):
         return self.beliefs
