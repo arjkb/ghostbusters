@@ -108,7 +108,7 @@ class DiscreteDistribution(dict):
 
         cumulative_sums = dict()
         s = 0
-        for i, (key, value) in enumerate(cp.items()):
+        for key, value in cp.items():
             if value != 0:
                 s += value
                 cumulative_sums[key] = s
