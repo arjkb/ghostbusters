@@ -19,8 +19,6 @@ import game
 
 from util import manhattanDistance
 
-import copy
-
 
 class DiscreteDistribution(dict):
     """
