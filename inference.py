@@ -341,10 +341,11 @@ class ExactInference(InferenceModule):
 
         # self.beliefs[pos] += self.getObservationProb(observation, pac_pos, pos, jail_pos) * newPosDist[pos]
 
-        for ghost_pos in self.allPositions:
-            newPosDist = self.getPositionDistribution(gameState, ghost_pos)
-            observation = manhattanDistance(pac_pos, ghost_pos)
-            self.beliefs[ghost_pos] *= self.getObservationProb(observation, pac_pos, ghost_pos, jail_pos) + newPosDist[ghost_pos]
+        for oldPos in self.allPositions:
+            newPosDist = self.getPositionDistribution(gameState, oldPos)
+            prior = self.beliefs[oldPos]
+            for pos in self.allPositions:
+                self.beliefs[oldPos] += prior * newPosDist[pos]
 
         self.beliefs.normalize()
 
