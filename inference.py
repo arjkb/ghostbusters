@@ -19,6 +19,8 @@ import game
 
 from util import manhattanDistance
 
+import copy
+
 
 class DiscreteDistribution(dict):
     """
@@ -341,12 +343,20 @@ class ExactInference(InferenceModule):
 
         # self.beliefs[pos] += self.getObservationProb(observation, pac_pos, pos, jail_pos) * newPosDist[pos]
 
+        blf = copy.deepcopy(self.beliefs)
+
+        # print blf
+
         for oldPos in self.allPositions:
             newPosDist = self.getPositionDistribution(gameState, oldPos)
-            prior = self.beliefs[oldPos]
+            # prior = self.beliefs[oldPos]
+            prior = blf[oldPos]
+            ss = 0
             for pos in self.allPositions:
-                self.beliefs[oldPos] += prior * newPosDist[pos]
-
+                # ss += prior * newPosDist[pos]
+                blf[oldPos] += blf[pos] * blf[oldPos] 
+            # self.beliefs[oldPos] = ss
+        self.beliefs = copy.deepcopy(blf)
         self.beliefs.normalize()
 
     def getBeliefDistribution(self):
