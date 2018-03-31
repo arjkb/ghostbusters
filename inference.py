@@ -335,28 +335,10 @@ class ExactInference(InferenceModule):
         """
         "*** YOUR CODE HERE ***"
         pac_pos = gameState.getPacmanPosition()
-        jail_pos = self.getJailPosition()
-        # print " ghostpositions:", self.ghostPositions
-        # print "pac_pos:", pac_pos
-        # print "jail_pos:", jail_pos
-        # print "\n beliefs:", self.beliefs
-
-        # self.beliefs[pos] += self.getObservationProb(observation, pac_pos, pos, jail_pos) * newPosDist[pos]
-
-        blf = copy.deepcopy(self.beliefs)
-
-        # print blf
 
         for oldPos in self.allPositions:
-            newPosDist = self.getPositionDistribution(gameState, oldPos)
-            # prior = self.beliefs[oldPos]
-            prior = blf[oldPos]
-            ss = 0
             for pos in self.allPositions:
-                # ss += prior * newPosDist[pos]
-                blf[oldPos] += blf[pos] * blf[oldPos] 
-            # self.beliefs[oldPos] = ss
-        self.beliefs = copy.deepcopy(blf)
+                self.beliefs[oldPos] += self.beliefs[oldPos] * self.beliefs[pos]
         self.beliefs.normalize()
 
     def getBeliefDistribution(self):
