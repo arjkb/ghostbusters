@@ -332,6 +332,12 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
+        pac_pos = gameState.getPacmanPosition()
+
+        for oldPos in self.allPositions:
+            for pos in self.allPositions:
+                self.beliefs[oldPos] += self.beliefs[oldPos] * self.beliefs[pos]
+        self.beliefs.normalize()
 
     def getBeliefDistribution(self):
         return self.beliefs
