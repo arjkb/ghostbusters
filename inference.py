@@ -369,9 +369,10 @@ class ParticleFilter(InferenceModule):
         particles_per_pos = self.numParticles/len(self.legalPositions)
         print particles_per_pos
 
-        for pos in self.legalPositions:
-            self.particles.append(pos)
-        print " particles: ", self.particles
+        for _ in range(self.numParticles/len(self.legalPositions)):
+            for pos in self.legalPositions:
+                self.particles.append(pos)
+        print " particles {} {}".format(len(self.particles), self.particles)
 
     def observeUpdate(self, observation, gameState):
         """
