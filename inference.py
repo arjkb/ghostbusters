@@ -401,6 +401,11 @@ class ParticleFilter(InferenceModule):
         essentially converts a list of particles into a belief distribution.
         """
         "*** YOUR CODE HERE ***"
+        beliefs = DiscreteDistribution()
+        for particle in self.particles:
+            beliefs[particle] = self.numParticles/len(self.legalPositions)
+        beliefs.normalize()
+        return beliefs
 
 
 class JointParticleFilter(ParticleFilter):
