@@ -387,6 +387,14 @@ class ParticleFilter(InferenceModule):
         the DiscreteDistribution may be useful.
         """
         "*** YOUR CODE HERE ***"
+        pac_pos = gameState.getPacmanPosition()
+        jail_pos = self.getJailPosition()
+        print " observation: ", observation
+        print " pacman position: ", pac_pos
+        print " jail position:", jail_pos
+        for ghost_pos in self.particles:
+            obs_pr = self.getObservationProb(observation, pac_pos, ghost_pos,jail_pos)
+            print " getobservationprob at {} = {}".format(ghost_pos, obs_pr)
 
     def elapseTime(self, gameState):
         """
