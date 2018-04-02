@@ -332,7 +332,7 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
-        pac_pos = gameState.getPacmanPosition()
+        # pac_pos = gameState.getPacmanPosition()
 
         for curr_pos in self.allPositions:
             for pos in self.allPositions:
