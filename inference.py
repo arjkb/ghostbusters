@@ -403,8 +403,8 @@ class ParticleFilter(InferenceModule):
         """
         "*** YOUR CODE HERE ***"
         beliefs = DiscreteDistribution()
-        for position in self.legalPositions:
-            beliefs[position] = self.numParticles/len(self.legalPositions)
+        for particle_pos in self.particles:
+            beliefs[particle_pos] += 1
         beliefs.normalize()
         return beliefs
 
