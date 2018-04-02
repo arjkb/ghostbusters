@@ -369,9 +369,10 @@ class ParticleFilter(InferenceModule):
         particles_per_pos = self.numParticles/len(self.legalPositions)
         print particles_per_pos
 
-        for pos in self.legalPositions:
-            self.particles.append(pos)
-        print " particles: ", self.particles
+        for _ in range(self.numParticles/len(self.legalPositions)):
+            for pos in self.legalPositions:
+                self.particles.append(pos)
+        print " particles {} {}".format(len(self.particles), self.particles)
 
     def observeUpdate(self, observation, gameState):
         """
@@ -402,8 +403,8 @@ class ParticleFilter(InferenceModule):
         """
         "*** YOUR CODE HERE ***"
         beliefs = DiscreteDistribution()
-        for particle in self.particles:
-            beliefs[particle] = self.numParticles/len(self.legalPositions)
+        for particle_pos in self.particles:
+            beliefs[particle_pos] += 1
         beliefs.normalize()
         return beliefs
 
