@@ -412,6 +412,7 @@ class ParticleFilter(InferenceModule):
         if all(map(lambda particle: weights[particle] == 0, weights)):
             self.initializeUniformly(gameState)
         else:
+            # re-sample from the weighed distribution
             samples = [weights.sample() for _ in range(self.numParticles)]
             # print " len of samples: {}".format(len(samples))
             self.particles = samples
