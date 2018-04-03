@@ -389,12 +389,33 @@ class ParticleFilter(InferenceModule):
         "*** YOUR CODE HERE ***"
         pac_pos = gameState.getPacmanPosition()
         jail_pos = self.getJailPosition()
-        print " observation: ", observation
-        print " pacman position: ", pac_pos
-        print " jail position:", jail_pos
-        for ghost_pos in self.particles:
-            obs_pr = self.getObservationProb(observation, pac_pos, ghost_pos,jail_pos)
-            print " getobservationprob at {} = {}".format(ghost_pos, obs_pr)
+        # print " observation: ", observation
+        # print " pacman position: ", pac_pos
+        # print " jail position:", jail_pos
+        # for ghost_pos in self.particles:
+        #     obs_pr = self.getObservationProb(observation, pac_pos, ghost_pos,jail_pos)
+        #     print " getobservationprob at {} = {}".format(ghost_pos, obs_pr)
+
+        weights = DiscreteDistribution()
+        for particle in self.particles:
+            # weight of a particle is the probability of the observation given 
+            # pacman's position and that particle location
+            weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)
+        # print weights
+
+        # print " length of weights:", len(weights)
+        weights.normalize()
+        samples = [weights.sample() for _ in range(self.numParticles)]
+        # print samples
+        # print "POS\tCount\tWeight"
+        # for pos in self.legalPositions:
+        #     print "{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), weights[pos])
+        #     # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
+        # print "--------------"
+
+        self.particles = samples
+
+
 
     def elapseTime(self, gameState):
         """
