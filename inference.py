@@ -412,9 +412,12 @@ class ParticleFilter(InferenceModule):
             # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
         # print "--------------"
 
-        
-
-
+        # handle special case when all particles receive zero weight
+        if all(map(lambda particle: weights[particle] == 0, weights)):
+            self.initializeUniformly(gameState)
+        else:
+            samples = [weights.sample() for _ in range(self.numParticles)]
+            self.particles = samples
 
     def elapseTime(self, gameState):
         """
