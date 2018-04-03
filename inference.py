@@ -404,16 +404,15 @@ class ParticleFilter(InferenceModule):
         # print weights
 
         # print " length of weights:", len(weights)
-        weights.normalize()
-        samples = [weights.sample() for _ in range(self.numParticles)]
+        # weights.normalize()
         # print samples
         # print "POS\tCount\tWeight"
         # for pos in self.legalPositions:
         #     print "{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), weights[pos])
-        #     # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
+            # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
         # print "--------------"
 
-        self.particles = samples
+        
 
 
 
@@ -432,11 +431,17 @@ class ParticleFilter(InferenceModule):
         """
         "*** YOUR CODE HERE ***"
         beliefs = DiscreteDistribution()
-        for particle_pos in self.particles:
-            beliefs[particle_pos] += 1
+        # for particle_pos in self.particles:
+        #     beliefs[particle_pos] += 1
+
+        for pos in self.legalPositions:
+            beliefs[pos] = len(filter(lambda p: p == pos, self.particles))
+
+        # for pos in self.legalPositions:
+        #     print "> {} {}".format(pos, beliefs[pos])
+        # print "-----------------"
         beliefs.normalize()
         return beliefs
-
 
 class JointParticleFilter(ParticleFilter):
     """
