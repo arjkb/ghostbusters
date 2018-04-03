@@ -415,12 +415,15 @@ class ParticleFilter(InferenceModule):
             # re-sample from the weighed distribution
             samples = [weights.sample() for _ in range(self.numParticles)]
             # print " len of samples: {}".format(len(samples))
+            # print "POS\tCount\tWeight"
+            # print "POS\tSCount\tPCount\tWeight"
+            # for pos in self.legalPositions:
+            #     # print "{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), weights[pos])
+            #     print "{}\t{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), len(filter(lambda p:p==pos, self.particles)), weights[pos])
+            # print "--------------"
             self.particles = samples
 
-        # print "POS\tCount\tWeight"
-        # for pos in self.legalPositions:
-        #     print "{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), weights[pos])
-        # print "--------------"
+        
 
     def elapseTime(self, gameState):
         """
