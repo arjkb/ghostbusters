@@ -404,7 +404,7 @@ class ParticleFilter(InferenceModule):
         # print weights
 
         # print " length of weights:", len(weights)
-        # weights.normalize()
+        # weights.normalize() # apparently makes no difference
         # print samples
             # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
         
