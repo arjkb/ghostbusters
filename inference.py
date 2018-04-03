@@ -401,7 +401,6 @@ class ParticleFilter(InferenceModule):
             # weight of a particle is the probability of the observation given 
             # pacman's position and that particle location
             weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)
-        # print weights
 
         # print " length of weights:", len(weights)
         # weights.normalize() # apparently makes no difference
@@ -414,6 +413,7 @@ class ParticleFilter(InferenceModule):
             self.initializeUniformly(gameState)
         else:
             samples = [weights.sample() for _ in range(self.numParticles)]
+            # print " len of samples: {}".format(len(samples))
             self.particles = samples
 
         # print "POS\tCount\tWeight"
