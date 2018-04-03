@@ -400,7 +400,7 @@ class ParticleFilter(InferenceModule):
         for particle in self.particles:
             # weight of a particle is the probability of the observation given 
             # pacman's position and that particle location
-            weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)
+            weights[particle] += self.getObservationProb(observation, pac_pos, particle,jail_pos)
 
         # print " length of weights:", len(weights)
         # weights.normalize() # apparently makes no difference
