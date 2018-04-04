@@ -334,9 +334,17 @@ class ExactInference(InferenceModule):
         "*** YOUR CODE HERE ***"
         # pac_pos = gameState.getPacmanPosition()
 
-        for curr_pos in self.allPositions:
+        new_beliefs = DiscreteDistribution()
+
+        for curr_ghost_pos in self.allPositions:
+            new_pos_dist = self.getPositionDistribution(gameState, curr_ghost_pos)
             for pos in self.allPositions:
-                self.beliefs[curr_pos] += self.beliefs[curr_pos] * self.beliefs[pos]
+                new_beliefs[pos] += self.beliefs[pos] * new_pos_dist[pos]
+
+        # for curr_pos in self.allPositions:
+            # for pos in self.allPositions:
+                # self.beliefs[curr_pos] += self.beliefs[curr_pos] * self.beliefs[pos]
+        self.beliefs = new_beliefs
         self.beliefs.normalize()
 
     def getBeliefDistribution(self):
