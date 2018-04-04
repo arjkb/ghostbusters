@@ -395,12 +395,12 @@ class ParticleFilter(InferenceModule):
         # for ghost_pos in self.particles:
         #     obs_pr = self.getObservationProb(observation, pac_pos, ghost_pos,jail_pos)
         #     print " getobservationprob at {} = {}".format(ghost_pos, obs_pr)
-
         weights = DiscreteDistribution()
+        priorB = self.getBeliefDistribution()
         for particle in self.particles:
             # weight of a particle is the probability of the observation given 
             # pacman's position and that particle location
-            weights[particle] += self.getObservationProb(observation, pac_pos, particle,jail_pos)
+            weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)*priorB[particle]
 
         # for particle in self.legalPositions:
         #     # weight of a particle is the probability of the observation given 
