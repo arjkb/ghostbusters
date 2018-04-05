@@ -405,6 +405,10 @@ class ParticleFilter(InferenceModule):
         gameState.
         """
         "*** YOUR CODE HERE ***"
+        # precompute position distributions
+        new_pos_dist = dict()
+        for pos in self.legalPositions:
+            new_pos_dist[pos] = self.getPositionDistribution(gameState, pos)
 
     def getBeliefDistribution(self):
         """
