@@ -394,10 +394,11 @@ class ParticleFilter(InferenceModule):
         jail_pos = self.getJailPosition()
         weights = DiscreteDistribution()
         priorB = self.getBeliefDistribution()
+        
         for particle in self.particles:
             # weight of a particle is the probability of the observation given 
             # pacman's position and that particle location
-            weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)*priorB[particle]
+            weights[particle] = self.getObservationProb(observation, pac_pos, particle, jail_pos)*priorB[particle]
         weights.normalize()
 
         if all(map(lambda particle: weights[particle] == 0, weights)):
