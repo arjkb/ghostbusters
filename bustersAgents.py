@@ -142,3 +142,6 @@ class GreedyBustersAgent(BustersAgent):
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
         print " >>>>>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<"
+        for gpd in livingGhostPositionDistributions:
+            print gpd
+            print "-----------"
