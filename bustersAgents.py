@@ -142,6 +142,10 @@ class GreedyBustersAgent(BustersAgent):
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
         print " >>>>>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<"
+        print "living ghosts:", livingGhosts
         for gpd in livingGhostPositionDistributions:
-            print gpd
-            print "-----------"
+            # print gpd.keys()
+            max_pr_pos = max(gpd, key=gpd.get)
+            print max_pr_pos
+
+        
