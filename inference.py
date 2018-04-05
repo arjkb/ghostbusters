@@ -373,15 +373,9 @@ class ParticleFilter(InferenceModule):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        # print " self.numParticles:", self.numParticles
-        # print " legalpositions:", self.legalPositions, len(self.legalPositions)
-        particles_per_pos = self.numParticles/len(self.legalPositions)
-        print particles_per_pos
-
         for _ in range(self.numParticles/len(self.legalPositions)):
             for pos in self.legalPositions:
                 self.particles.append(pos)
-        # print " particles {} {}".format(len(self.particles), self.particles)
 
     def observeUpdate(self, observation, gameState):
         """
@@ -398,46 +392,21 @@ class ParticleFilter(InferenceModule):
         "*** YOUR CODE HERE ***"
         pac_pos = gameState.getPacmanPosition()
         jail_pos = self.getJailPosition()
-        # print " observation: ", observation
-        # print " pacman position: ", pac_pos
-        # print " jail position:", jail_pos
-        # for ghost_pos in self.particles:
-        #     obs_pr = self.getObservationProb(observation, pac_pos, ghost_pos,jail_pos)
-        #     print " getobservationprob at {} = {}".format(ghost_pos, obs_pr)
         weights = DiscreteDistribution()
         priorB = self.getBeliefDistribution()
         for particle in self.particles:
             # weight of a particle is the probability of the observation given 
             # pacman's position and that particle location
             weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)*priorB[particle]
+        weights.normalize()
 
-        # for particle in self.legalPositions:
-        #     # weight of a particle is the probability of the observation given 
-        #     # pacman's position and that particle location
-        #     weights[particle] = self.getObservationProb(observation, pac_pos, particle,jail_pos)
-
-        # print " length of weights:", len(weights)
-        weights.normalize() # apparently makes no difference
-        # print samples
-            # print pos, len(filter(lambda p:p==pos, samples)), weights[pos]
-        
-
-        # handle special case when all particles receive zero weight
         if all(map(lambda particle: weights[particle] == 0, weights)):
+            # special case when all particles receive zero weight
             self.initializeUniformly(gameState)
         else:
             # re-sample from the weighed distribution
             samples = [weights.sample() for _ in range(self.numParticles)]
-            # print " len of samples: {}".format(len(samples))
-            # print "POS\tCount\tWeight"
-            # print "POS\tSCount\tPCount\tWeight"
-            # for pos in self.legalPositions:
-            #     # print "{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), weights[pos])
-            #     print "{}\t{}\t{}\t{}".format(pos, len(filter(lambda p:p==pos, samples)), len(filter(lambda p:p==pos, self.particles)), weights[pos])
-            # print "--------------"
             self.particles = samples
-
-        
 
     def elapseTime(self, gameState):
         """
