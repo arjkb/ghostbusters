@@ -310,17 +310,10 @@ class ExactInference(InferenceModule):
 
         pac_pos = gameState.getPacmanPosition()
         jail_pos = self.getJailPosition()
-        # print "\n all positions:", self.allPositions
-        # print " beliefs: ", self.beliefs
-        # print " observation:", observation
-        # print " pacmanPosition:", pac_pos
-        # print " jailPosition:", jail_pos
 
         for ghost_pos in self.allPositions:
             self.beliefs[ghost_pos] *= self.getObservationProb(observation, pac_pos, ghost_pos, jail_pos)
-        # print "updated!"
         self.beliefs.normalize()
-
 
     def elapseTime(self, gameState):
         """
@@ -332,11 +325,9 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
-        # pac_pos = gameState.getPacmanPosition()
-
         new_beliefs = DiscreteDistribution()
 
-        # pre-compute the new position distributions for the ghost at all previous positions positions
+        # pre-compute new position distributions for the ghost at all positions
         new_pos_dist = dict()
         for position in self.allPositions:
             new_pos_dist[position] = self.getPositionDistribution(gameState, position)
@@ -423,15 +414,8 @@ class ParticleFilter(InferenceModule):
         """
         "*** YOUR CODE HERE ***"
         beliefs = DiscreteDistribution()
-        # for particle_pos in self.particles:
-        #     beliefs[particle_pos] += 1
-
         for pos in self.legalPositions:
             beliefs[pos] = len(filter(lambda p: p == pos, self.particles))
-
-        # for pos in self.legalPositions:
-        #     print "> {} {}".format(pos, beliefs[pos])
-        # print "-----------------"
         beliefs.normalize()
         return beliefs
 
