@@ -405,8 +405,7 @@ class ParticleFilter(InferenceModule):
             self.initializeUniformly(gameState)
         else:
             # re-sample from the weighed distribution
-            samples = [weights.sample() for _ in range(self.numParticles)]
-            self.particles = samples
+            self.particles = [weights.sample() for _ in range(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
