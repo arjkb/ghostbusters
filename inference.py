@@ -106,15 +106,15 @@ class DiscreteDistribution(dict):
         cp = self.copy()
         cp.normalize()
 
-        cumulative_sums = dict()
-        s = 0
+        cumulative_sums = list()
+        cumulative_sum = 0
         for key, value in cp.items():
             if value != 0:
-                s += value
-                cumulative_sums[key] = s
-
+                cumulative_sum += value
+                cumulative_sums.append((key, cumulative_sum))
+        
         r = random.random()
-        for k,v in cumulative_sums.items():
+        for k, v in cumulative_sums:
             if r < v:
                 return k
 
