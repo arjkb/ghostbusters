@@ -465,6 +465,7 @@ class JointParticleFilter(ParticleFilter):
         particles = list()
         n = 0
         tuples = list(itertools.product(self.legalPositions, repeat=self.numGhosts))
+        random.shuffle(tuples)
         tuples = tuples * ((self.numParticles/len(tuples)) + 1)
         ti = iter(tuples)
         while n < self.numParticles:
