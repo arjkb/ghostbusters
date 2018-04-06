@@ -103,7 +103,8 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
 
-        cp = self.copy()
+        # cp = self.copy()
+        cp = self
         cp.normalize()
 
         cumulative_sums = list()
@@ -113,7 +114,7 @@ class DiscreteDistribution(dict):
                 cumulative_sum += value
                 cumulative_sums.append((key, cumulative_sum))
         
-        r = random.random()
+        r = random.random() * cumulative_sum
         for k, v in cumulative_sums:
             if r < v:
                 return k
