@@ -406,24 +406,15 @@ class ParticleFilter(InferenceModule):
         gameState.
         """
         "*** YOUR CODE HERE ***"
-        weights = DiscreteDistribution()
-        priorB = self.getBeliefDistribution()
-        
         # precompute position distributions
         new_pos_dist = dict()
-        for pos in self.legalPositions:
+        for pos in self.allPositions:
             new_pos_dist[pos] = self.getPositionDistribution(gameState, pos)
 
-        # get the weights
-        for particle in self.legalPositions:
-            for pos in self.legalPositions:
-                weights[particle] += priorB[pos] * new_pos_dist[pos][particle]
-        weights.normalize()
-
-        # re-sample
-        updated_particles = [weights.sample() for _ in xrange(self.numParticles)]
+        updated_particles = list()
+        for particle in self.particles:
+            updated_particles.append(new_pos_dist[particle].sample())
         self.particles = updated_particles
-        
 
     def getBeliefDistribution(self):
         """
