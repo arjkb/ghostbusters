@@ -365,7 +365,7 @@ class ParticleFilter(InferenceModule):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        for _ in range(self.numParticles/len(self.legalPositions)):
+        for _ in xrange(self.numParticles/len(self.legalPositions)):
             for pos in self.legalPositions:
                 self.particles.append(pos)
 
@@ -398,7 +398,7 @@ class ParticleFilter(InferenceModule):
             self.initializeUniformly(gameState)
         else:
             # re-sample from the weighed distribution
-            self.particles = [weights.sample() for _ in range(self.numParticles)]
+            self.particles = [weights.sample() for _ in xrange(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
@@ -421,7 +421,7 @@ class ParticleFilter(InferenceModule):
         weights.normalize()
 
         # re-sample
-        updated_particles = [weights.sample() for _ in range(self.numParticles)]
+        updated_particles = [weights.sample() for _ in xrange(self.numParticles)]
         self.particles = updated_particles
         
 
@@ -511,7 +511,7 @@ class JointParticleFilter(ParticleFilter):
 
         for particle in self.particles:
             weight = 1
-            for i in range(self.numGhosts):
+            for i in xrange(self.numGhosts):
                 # print " observation: {}".format(observation)
                 # print " particle[{}] = {}".format(i, particle[i])
                 ghost_pos = particle[i]
