@@ -103,7 +103,8 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
 
-        cp = self.copy()
+        # cp = self.copy()
+        cp = self
         cp.normalize()
 
         cumulative_sums = list()
@@ -113,7 +114,7 @@ class DiscreteDistribution(dict):
                 cumulative_sum += value
                 cumulative_sums.append((key, cumulative_sum))
         
-        r = random.random()
+        r = random.random() * cumulative_sum
         for k, v in cumulative_sums:
             if r < v:
                 return k
@@ -465,6 +466,7 @@ class JointParticleFilter(ParticleFilter):
         particles = list()
         n = 0
         tuples = list(itertools.product(self.legalPositions, repeat=self.numGhosts))
+        random.shuffle(tuples)
         tuples = tuples * ((self.numParticles/len(tuples)) + 1)
         ti = iter(tuples)
         while n < self.numParticles:
@@ -503,6 +505,27 @@ class JointParticleFilter(ParticleFilter):
         the DiscreteDistribution may be useful.
         """
         "*** YOUR CODE HERE ***"
+        pac_pos = gameState.getPacmanPosition()
+        weights = DiscreteDistribution()
+        priorB = self.getBeliefDistribution()
+
+        for particle in self.particles:
+            weight = 1
+            for i in range(self.numGhosts):
+                # print " observation: {}".format(observation)
+                # print " particle[{}] = {}".format(i, particle[i])
+                ghost_pos = particle[i]
+                weight *= self.getObservationProb(observation[i], pac_pos, ghost_pos, self.getJailPosition(i))
+            weights[particle] = weight * priorB[particle]
+
+        weights.normalize()
+
+        if all(map(lambda particle: weights[particle] == 0, weights)):
+            # special case when all particles receive zero weight
+            self.initializeUniformly(gameState)
+        else:
+            # re-sample from the weighed distribution
+            self.particles = [weights.sample() for _ in xrange(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
