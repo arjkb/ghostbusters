@@ -510,8 +510,6 @@ class JointParticleFilter(ParticleFilter):
         for particle in self.particles:
             weight = 1
             for i in xrange(self.numGhosts):
-                # print " observation: {}".format(observation)
-                # print " particle[{}] = {}".format(i, particle[i])
                 ghost_pos = particle[i]
                 weight *= self.getObservationProb(observation[i], pac_pos, ghost_pos, self.getJailPosition(i))
             weights[particle] = weight * priorB[particle]
