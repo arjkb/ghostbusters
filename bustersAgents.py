@@ -142,7 +142,6 @@ class GreedyBustersAgent(BustersAgent):
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
-        
         for gpd in livingGhostPositionDistributions:
             max_pr_pos = max(gpd, key=gpd.get)
             min_distance = sys.maxint
@@ -155,6 +154,3 @@ class GreedyBustersAgent(BustersAgent):
                 if distance < min_distance:
                     min_distance, min_action = distance, action
             return min_action
-
-
-        

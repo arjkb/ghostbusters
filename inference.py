@@ -365,7 +365,7 @@ class ParticleFilter(InferenceModule):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        for _ in range(self.numParticles/len(self.legalPositions)):
+        for _ in xrange(self.numParticles/len(self.legalPositions)):
             for pos in self.legalPositions:
                 self.particles.append(pos)
 
@@ -398,7 +398,7 @@ class ParticleFilter(InferenceModule):
             self.initializeUniformly(gameState)
         else:
             # re-sample from the weighed distribution
-            self.particles = [weights.sample() for _ in range(self.numParticles)]
+            self.particles = [weights.sample() for _ in xrange(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
@@ -414,6 +414,8 @@ class ParticleFilter(InferenceModule):
         for pos in self.legalPositions:
             new_pos_dist[pos] = self.getPositionDistribution(gameState, pos)
 
+        # bad way of doing things... Inefficient, although works correctly.
+
         # get the weights
         for particle in self.legalPositions:
             for pos in self.legalPositions:
@@ -421,7 +423,7 @@ class ParticleFilter(InferenceModule):
         weights.normalize()
 
         # re-sample
-        updated_particles = [weights.sample() for _ in range(self.numParticles)]
+        updated_particles = [weights.sample() for _ in xrange(self.numParticles)]
         self.particles = updated_particles
         
 
@@ -463,16 +465,14 @@ class JointParticleFilter(ParticleFilter):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        particles = list()
-        n = 0
         tuples = list(itertools.product(self.legalPositions, repeat=self.numGhosts))
         random.shuffle(tuples)
-        tuples = tuples * ((self.numParticles/len(tuples)) + 1)
-        ti = iter(tuples)
-        while n < self.numParticles:
-            particles.append(next(ti))
-            n += 1
-        self.particles = particles
+
+        # make several copies of tuples so that it's more than self.numParticles
+        tuples = tuples * ((self.numParticles/len(tuples)) + 1) 
+
+        for i in xrange(self.numParticles):
+            self.particles.append(tuples[i])
 
     def addGhostAgent(self, agent):
         """
@@ -511,11 +511,8 @@ class JointParticleFilter(ParticleFilter):
 
         for particle in self.particles:
             weight = 1
-            for i in range(self.numGhosts):
-                # print " observation: {}".format(observation)
-                # print " particle[{}] = {}".format(i, particle[i])
-                ghost_pos = particle[i]
-                weight *= self.getObservationProb(observation[i], pac_pos, ghost_pos, self.getJailPosition(i))
+            for i in xrange(self.numGhosts):
+                weight *= self.getObservationProb(observation[i], pac_pos, particle[i], self.getJailPosition(i))
             weights[particle] = weight * priorB[particle]
 
         weights.normalize()
@@ -539,7 +536,7 @@ class JointParticleFilter(ParticleFilter):
             # now loop through and update each entry in newParticle...
             "*** YOUR CODE HERE ***"
             for i in xrange(self.numGhosts):
-                newParticle[i] = self.getPositionDistribution(gameState, list(newParticle), i, self.ghostAgents[i]).sample()
+                newParticle[i] = self.getPositionDistribution(gameState, list(oldParticle), i, self.ghostAgents[i]).sample()
             """*** END YOUR CODE HERE ***"""
             newParticles.append(tuple(newParticle))
         self.particles = newParticles
