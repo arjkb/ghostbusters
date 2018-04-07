@@ -468,9 +468,9 @@ class JointParticleFilter(ParticleFilter):
 
         # make several copies of tuples so that it's more than self.numParticles
         tuples = tuples * ((self.numParticles/len(tuples)) + 1) 
-        ti = iter(tuples)
-        for _ in xrange(self.numParticles):
-            self.particles.append(next(ti))
+
+        for i in xrange(self.numParticles):
+            self.particles.append(tuples[i])
 
     def addGhostAgent(self, agent):
         """
