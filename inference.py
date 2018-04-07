@@ -507,6 +507,8 @@ class JointParticleFilter(ParticleFilter):
         weights = DiscreteDistribution()
         priorB = self.getBeliefDistribution()
 
+        # this is a bad way of doing things...
+
         for particle in self.particles:
             weight = 1
             for i in xrange(self.numGhosts):
