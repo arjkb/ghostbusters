@@ -414,6 +414,8 @@ class ParticleFilter(InferenceModule):
         for pos in self.legalPositions:
             new_pos_dist[pos] = self.getPositionDistribution(gameState, pos)
 
+        # bad way of doing things... Inefficient, although works correctly.
+
         # get the weights
         for particle in self.legalPositions:
             for pos in self.legalPositions:
